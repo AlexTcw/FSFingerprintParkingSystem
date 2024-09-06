@@ -38,10 +38,3 @@ Reporting & Analytics: Provides detailed reports and analytics on parking usage.
 
 - Contributing:
 
-We welcome contributions! Please fork the repository and create a pull request with your changes.
-  ## para el adrian xd
-- primero le das sudo npm install -g @angular/cli
-- luego le das npm install -f
-- luego le das export NODE_OPTIONS=--openssl-legacy-provider
-- luego le das ng serve
-- y ya
