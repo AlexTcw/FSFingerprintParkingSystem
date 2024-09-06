@@ -2,7 +2,7 @@
 
 # FingerprintParkingSystem
 
-A comprehensive fullstack parking management system utilizing fingerprint authentication. This project leverages Docker, MySQL, Spring Boot, and Angular to provide a seamless and efficient solution for managing parking spaces with enhanced security.
+A comprehensive fullstack parking management system utilizing QR authentication. This project leverages Docker, MySQL, Spring Boot, and Angular to provide a seamless and efficient solution for managing parking spaces with enhanced security.
 
 - Features:
 
