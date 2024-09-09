@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Service
 public class UsuarioServiceImp implements UsuarioService {
@@ -87,10 +88,11 @@ public class UsuarioServiceImp implements UsuarioService {
         new Tblusr();
         Tblusr usr;
         long cveusr;
+        Tblusr newUsr;
 
         if (!request.containsKey("email") || !request.containsKey("login")
                 || !request.containsKey("nameusr") || !request.containsKey("password")
-                || !request.containsKey("token")
+                //|| !request.containsKey("token")
         ) {
             return response.badRequestResponse("Json Null or malformed", consume);
         }
@@ -106,9 +108,9 @@ public class UsuarioServiceImp implements UsuarioService {
             }
             usr = this.reFillUsr(request, cveusr);
         } else {
-            if (usuarioDao.existsTblusrByTokenusr(request.get("token").toString())) {
+            /*if (usuarioDao.existsTblusrByTokenusr(request.get("token").toString())) {
                 return response.badRequestResponse("The token is taken", request.get("token").toString());
-            }
+            }*/
 
             if (usuarioDao.existsTblusrByLoginusr(request.get("login").toString())) {
                 return response.badRequestResponse("The login is taken", request.get("login").toString());
@@ -121,8 +123,9 @@ public class UsuarioServiceImp implements UsuarioService {
             usr = this.fillUsr(request, type);
         }
 
-        cveusr = usuarioDao.createOrUpdateUsuario(usr).getCveusr();
-        request.put("cveUsr", cveusr);
+        newUsr = usuarioDao.createOrUpdateUsuario(usr);
+        request.put("cveUsr", newUsr.getCveusr());
+        request.put("tokenusr",newUsr.getTokenusr());
         return response.okResponse("User updated successfully", request);
     }
 
@@ -135,7 +138,10 @@ public class UsuarioServiceImp implements UsuarioService {
         usr.setIdcar((List<String>) data.get("idcar"));
         usr.setNameusr((String) data.get("nameusr"));
         usr.setPasswordusr((String) data.get("password"));
-        usr.setTokenusr((String) data.get("token"));
+        String uuid = UUID.randomUUID().toString();
+        String shortenedUuid = uuid.substring(0, 20);
+        System.out.println(shortenedUuid);
+        usr.setTokenusr(shortenedUuid);
         usr.setTypeusr(typeUsr);
         return usr;
     }
@@ -149,7 +155,6 @@ public class UsuarioServiceImp implements UsuarioService {
         usr.setIdcar(idCar);
         usr.setNameusr((String) data.get("nameusr"));
         usr.setPasswordusr((String) data.get("password"));
-        usr.setTokenusr((String) data.get("token"));
         usr.setTypeusr((String) data.get("typeusr"));
         return usr;
     }

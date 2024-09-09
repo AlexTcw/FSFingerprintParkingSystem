@@ -35,6 +35,7 @@ public class UsuarioController {
         } catch (Exception e) {
             ResponseJsonHandler errorResponse = new ResponseJsonHandler();
             response = errorResponse.serverErrorResponse("An error occurred: " + e.getMessage());
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }

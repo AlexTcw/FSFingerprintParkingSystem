@@ -3,7 +3,6 @@ package com.fingerprint.parkingfpaaccessmanager.controller.webSocket;
 
 import com.fingerprint.parkingfpaaccessmanager.model.webSocket.Greeting;
 import com.fingerprint.parkingfpaaccessmanager.model.webSocket.HelloMessage;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -13,11 +12,11 @@ import org.springframework.web.util.HtmlUtils;
 
 @Controller
 @CrossOrigin(origins = {"*"})
-public class GreetingController {
+public class WSController {
 
     private final SimpMessagingTemplate messagingTemplate;
 
-    public GreetingController(SimpMessagingTemplate messagingTemplate) {
+    public WSController(SimpMessagingTemplate messagingTemplate) {
         this.messagingTemplate = messagingTemplate;
     }
 
