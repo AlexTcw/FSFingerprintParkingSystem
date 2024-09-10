@@ -24,8 +24,7 @@ export class SignupComponent implements OnInit {
   constructor(private userService: UserService,
               private fb: FormBuilder,
               private estService:EstacionamientoService,
-              private router:Router,
-              public dialogRef: MatDialogRef<SignupComponent>,) {
+              private router:Router,) {
     this.form = this.fb.group({
       email: ['', [
           Validators.required,
@@ -53,6 +52,9 @@ export class SignupComponent implements OnInit {
         Validators.minLength(8),
         Validators.maxLength(20),
         Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$')
+      ]],
+      role:['',[
+        Validators.required
       ]]
     });
     this.formCarPlate = this.fb.group({
@@ -66,34 +68,6 @@ export class SignupComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.showDialogFingerPrint().then(() => null);
-  }
-
-  async showDialogFingerPrint(): Promise<void> {
-    await Swal.fire({
-      title: 'No se ha registrado una huella',
-      text: 'Por favor, use el lector y espere hasta que se registre una huella.',
-      icon: 'warning',
-      showCancelButton: false,
-      showConfirmButton: false,
-      allowOutsideClick: false, // No permite cerrar la alerta haciendo clic fuera de ella
-      allowEscapeKey: false, // No permite cerrar la alerta con la tecla Escape
-      didOpen: () => {
-        // Aquí puedes configurar tu lector de huellas y realizar una verificación continua
-        const interval = setInterval(async () => {
-          const fingerprint = localStorage.getItem('fingerprint');
-          if (fingerprint) {
-            const validUser = await this.userService.validateUsrByToken(fingerprint);
-            if (validUser){
-              await this.showUsrError(fingerprint);
-            }else{
-              clearInterval(interval); // Detener la verificación continua
-              Swal.close(); // Cerrar el diálogo
-            }
-          }
-        }, 1000); // Verificar cada segundo
-      }
-    });
   }
 
   async showUsrError(token: string): Promise<void> {
@@ -106,9 +80,6 @@ export class SignupComponent implements OnInit {
 
       // Borra el fingerprint del localStorage
       localStorage.removeItem('fingerprint');
-
-      // Vuelve a mostrar el diálogo de huella
-      await this.showDialogFingerPrint();
   }
 
   togglePasswordVisibility(): void {
@@ -131,8 +102,7 @@ export class SignupComponent implements OnInit {
           idcar: [],
           nameusr: formValues.name,
           password: formValues.password,
-          token: localStorage.getItem('fingerprint'),
-          typeusr: "1"
+          typeusr: formValues.role
         }
       };
 
@@ -147,7 +117,7 @@ export class SignupComponent implements OnInit {
                 text: "Something went wrong!",
               }).then(() => {
                 this.unsetTokenFromLocalStorage();
-                this.dialogRef.close(); // Cierra el diálogo en caso de error
+                //this.dialogRef.close(); // Cierra el diálogo en caso de error
               });
             } else {
               Swal.fire({
@@ -158,10 +128,10 @@ export class SignupComponent implements OnInit {
                 if (localStorage.getItem('iscreating')){
                   console.log(response.datos)
                   this.cveusr = response.datos.cveUsr;
-                  this.showCarPlatePrompt().then(() => this.dialogRef.close());
+                  //this.showCarPlatePrompt().then(() => this.dialogRef.close());
                 }else{
                   this.unsetTokenFromLocalStorage();
-                  this.dialogRef.close(); // Cierra el diálogo en caso de éxito
+                  //this.dialogRef.close(); // Cierra el diálogo en caso de éxito
                 }
               });
             }
@@ -242,7 +212,7 @@ export class SignupComponent implements OnInit {
               text: "Something went wrong!",
             }).then(() => {
               this.unsetTokenFromLocalStorage();
-              this.dialogRef.close(); // Cierra el diálogo en caso de error
+              //this.dialogRef.close(); // Cierra el diálogo en caso de error
             });
           } else {
             Swal.fire({

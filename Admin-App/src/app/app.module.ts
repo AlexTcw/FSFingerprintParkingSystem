@@ -41,6 +41,7 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatRadioModule} from "@angular/material/radio";
 import {MatTableModule} from "@angular/material/table";
 import {MatPaginatorModule} from "@angular/material/paginator";
+import {MatSelectModule} from "@angular/material/select";
 
 @NgModule({
   declarations: [
@@ -63,29 +64,30 @@ import {MatPaginatorModule} from "@angular/material/paginator";
     SignupComponent,
     PaymentComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    MatListModule,
-    MatDividerModule,
-    NgOptimizedImage,
-    MatCardModule,
-    MatButtonModule,
-    MatIconModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatInputModule,
-    HttpClientModule,
-    MatDialogModule,
-    MatChipsModule,
-    ReactiveFormsModule,
-    MatCheckboxModule,
-    MatRadioModule,
-    FormsModule,
-    MatTableModule,
-    MatPaginatorModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        MatListModule,
+        MatDividerModule,
+        NgOptimizedImage,
+        MatCardModule,
+        MatButtonModule,
+        MatIconModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatInputModule,
+        HttpClientModule,
+        MatDialogModule,
+        MatChipsModule,
+        ReactiveFormsModule,
+        MatCheckboxModule,
+        MatRadioModule,
+        FormsModule,
+        MatTableModule,
+        MatPaginatorModule,
+        MatSelectModule
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

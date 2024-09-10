@@ -8,7 +8,7 @@ import {firstValueFrom, Observable} from "rxjs";
 })
 export class UserService {
   //baseURL = `${environment.backendURL}/usr`;
-  baseURL = `http://parking-uaem.ddns.net:8080/usr`;
+  baseURL = `${environment.backendURL}/usr`;
 
   headers = new HttpHeaders({'Content-Type': 'application/json'});
 
@@ -52,13 +52,23 @@ export class UserService {
     }
   }
 
-  private setDataOnLocalStorage(response:any){
+   setDataOnLocalStorage(response:any){
     localStorage.setItem('responseUser', JSON.stringify(response));
     const keys = Object.keys(response.datos);
     const key = parseInt(keys[0]);
     const userData = response.datos[key];
     localStorage.setItem('typeusr', userData.typeusr);
     localStorage.setItem('cveusr', String(key));
+  }
+
+   findUsrByEmailAndPassword(data:any):Observable<any> {
+    const headers = this.headers;
+    return this.http.post(`${this.baseURL}/findUsrByEmailAndPassword`, data, {headers});
+  }
+
+   findUserByLoginAndPassword(data:any):Observable<any> {
+    const headers = this.headers;
+    return this.http.post(`${this.baseURL}/findUserByLoginAndPassword`, data, {headers});
   }
 
 

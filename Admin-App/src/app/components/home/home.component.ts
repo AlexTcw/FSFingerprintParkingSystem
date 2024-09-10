@@ -6,6 +6,10 @@ import {MatDialog} from "@angular/material/dialog";
 import {SignupComponent} from "../users/signup/signup.component";
 import {UserService} from "../../services/user.service";
 import { firstValueFrom } from 'rxjs';
+import {MyErrorStateMatcher} from "../util/form/MyErrorStateMatcher";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {emailAsyncValidator, usernameAsyncValidator} from "../util/form/Validators";
+import Swal from "sweetalert2";
 
 @Component({
   selector: 'app-home',
@@ -13,18 +17,35 @@ import { firstValueFrom } from 'rxjs';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
+  form: FormGroup;
   hide = true;
   connected: boolean = false;
   message: string = "";
-  rotatedState: number = 0;
+  rotatedState: number = 1;
   creatingUser: number = 0;
+  showPassword: boolean = false;
+  matcher = new MyErrorStateMatcher();
   protected readonly localStorage = localStorage;
 
   constructor(private webSocketService: WebSocketService,
               private router: Router,
+              private fb: FormBuilder,
               private registryService: RegistryService,
               private dialog: MatDialog,
               private userService:UserService) {
+    this.form = this.fb.group({
+      emailOrUsername: ['', [
+        Validators.required,
+        Validators.minLength(3),  // Mínimo 3 caracteres
+        Validators.maxLength(254) // Máximo 254 caracteres
+      ]],
+      password: ['', [
+        Validators.required,
+        //Validators.minLength(8),
+        Validators.maxLength(20),
+        //Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$')
+      ]]
+    });
   }
 
   ngOnInit(): void {
@@ -39,6 +60,8 @@ export class HomeComponent implements OnInit {
     this.webSocketService.connect((message) => this.handleMessage(message));
     this.connected = true;
   }
+
+
 
   private handleMessage(message: any) {
     if (!message || !message.content) {
@@ -122,4 +145,55 @@ export class HomeComponent implements OnInit {
     this.creatingUser = 0;
   }
 
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
+  }
+
+  findUserByParam() {
+    if (this.form.valid) {
+      const formValues = this.form.value;
+      const data = {
+        value1: formValues.emailOrUsername,
+        value2: formValues.password,
+      };
+
+      // Intentamos primero con el nombre de usuario
+      this.userService.findUserByLoginAndPassword(data).subscribe(
+        (response: any) => {
+          if (response.datos && response.datos.code === 200) {
+            // Usuario encontrado con el nombre de usuario, guardamos en localStorage
+            localStorage.setItem('user', JSON.stringify(response.datos.obj));
+            // Aquí puedes redirigir o realizar otra acción, por ejemplo:
+            console.log('Usuario autenticado con nombre de usuario');
+            this.router.navigate(['/dashboard']);
+
+          } else {
+            // Si no se encuentra con el nombre de usuario, intentamos con el correo electrónico
+            this.userService.findUsrByEmailAndPassword(data).subscribe(
+              (emailResponse: any) => {
+                if (emailResponse.datos && emailResponse.datos.code === 200) {
+                  // Usuario encontrado con el correo, guardamos en localStorage
+                  localStorage.setItem('user', JSON.stringify(emailResponse.datos.obj));
+                  // Aquí puedes redirigir o realizar otra acción
+                  console.log('Usuario autenticado con correo electrónico');
+                  this.router.navigate(['/dashboard']);
+                } else {
+                  // Si ambos intentos fallan, mostramos un mensaje de error
+                  this.form.setErrors({ invalid: true });
+                }
+              },
+              (emailError) => {
+                // En caso de error en la llamada del correo
+                this.form.setErrors({ invalidLogin: true });
+              }
+            );
+          }
+        },
+        (error) => {
+          // En caso de error en la llamada del nombre de usuario
+          this.form.setErrors({ invalidLogin: true });
+        }
+      );
+    }
+  }
 }
