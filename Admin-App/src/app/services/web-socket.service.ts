@@ -7,7 +7,7 @@ import { environment } from '../../environments/environment';
   providedIn: 'root',
 })
 export class WebSocketService {
-  private backendUrl = `http://parking-uaem.ddns.net:8080`;
+  private backendUrl = environment.backendURL;
   private webSocketEndPoint: string = `${this.backendUrl}/ws`;
   private topic: string = '/topic/greetings';
   private stompClient: any;

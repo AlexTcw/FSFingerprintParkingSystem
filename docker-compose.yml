@@ -38,7 +38,20 @@ services:
       - estacionamiento-db
     volumes:
       - images-data:/home/alextcw/Files/images  # Agrega el volumen para las imágenes
-
+  admin-frontend:
+    image: alextcw/admin-p-app-parking:v1.0
+    restart: always
+    networks:
+      parkingnetwork:
+        ipv4_address: 192.18.0.30
+    ports:
+      - '4200:4200'
+    expose:
+      - '4200'
+    depends_on:
+      - admin-backend
+        
 volumes:
   db-data:  # Define el volumen para la base de datos
   images-data:  # Define el volumen para las imágenes
+
