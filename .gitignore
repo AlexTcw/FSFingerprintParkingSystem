@@ -40,3 +40,7 @@ build/
 #/Dockerfile
 #/nbproject/
 #pom.xml
+
+#Angular
+.angular/cache/
+
