@@ -1,0 +1,58 @@
+<div class="main-container">
+  <mat-tab-group>
+    <mat-tab label="Gestionar usuarios">
+      <div class="left-container">
+        <mat-card>
+          <mat-card-title style="margin: 2% 10% 2% 5%; display: flex; flex-direction: row;">
+            <h1>Ver Usuarios activos</h1>
+            <mat-form-field style="margin-left: 50%">
+              <mat-label>Tipo de usuario</mat-label>
+              <mat-select [formControl]="toggleTypeControl">
+                <mat-option value="0">Admin</mat-option>
+                <mat-option value="1">Regular</mat-option>
+                <mat-option value="2">Generic</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </mat-card-title>
+          <mat-card-content class="mat-elevation-z8" tabindex="0">
+            <table mat-table [dataSource]="dataSource" class="usuarios-container">
+
+              <!-- Definición de columna 'nameusr' -->
+              <ng-container matColumnDef="nameusr">
+                <th mat-header-cell *matHeaderCellDef>Nombre</th>
+                <td mat-cell *matCellDef="let element">{{ element.nameusr }}</td>
+              </ng-container>
+              <ng-container matColumnDef="loginusr">
+                <th mat-header-cell *matHeaderCellDef>UserName</th>
+                <td mat-cell *matCellDef="let element">{{ element.loginusr }}</td>
+              </ng-container>
+              <ng-container matColumnDef="emailusr">
+                <th mat-header-cell *matHeaderCellDef>Correo</th>
+                <td mat-cell *matCellDef="let element">{{ element.emailusr }}</td>
+              </ng-container>
+              <ng-container matColumnDef="passwordusr">
+                <th mat-header-cell *matHeaderCellDef>Contraseña</th>
+                <td mat-cell *matCellDef="let element">{{ element.passwordusr }}</td>
+              </ng-container>
+              <ng-container matColumnDef="tokenusr">
+                <th mat-header-cell *matHeaderCellDef>Token</th>
+                <td mat-cell *matCellDef="let element">{{ element.tokenusr}}</td>
+              </ng-container>
+
+              <!-- Fila del encabezado -->
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <!-- Fila de datos -->
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+            </table>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </mat-tab>
+    <mat-tab label="Crear usuarios">
+      <div class="sign-up-container">
+        <app-sign-up></app-sign-up>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>

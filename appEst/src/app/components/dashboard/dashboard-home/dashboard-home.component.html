@@ -1,0 +1,55 @@
+<div class="container-main">
+  <mat-card class="welcome-dash">
+    <mat-card-header>
+      <mat-card-title>
+        <h2>
+          <mat-icon #icon>person_pin</mat-icon>
+          Bienvenido de vuelta {{loginusr}}
+        </h2>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="card-content">
+      <h1>Autos activos</h1>
+      <mat-table [dataSource]="dataSource"
+                 class="mat-elevation-z8 autos-activos">
+        <!-- Column Definitions -->
+        <ng-container matColumnDef="idcar">
+          <th mat-header-cell *matHeaderCellDef>  </th>
+          <td mat-cell *matCellDef="let element"> {{element.idcar}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>  </th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-raised-button color="warn">Pagar</button>
+          </td>
+        </ng-container>
+
+        <!-- Header and Row Definition -->
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </mat-table>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <mat-divider class="footer-divider"></mat-divider>
+      <button (click)="navigateToComponent('/dashboard/active-park')" color="warn" mat-button>Ver mas</button>
+    </mat-card-actions>
+  </mat-card>
+  <mat-card class="payment-dash">
+    <mat-card-content>
+      <div class="clock-container">
+        <app-clock></app-clock>
+      </div>
+    </mat-card-content>
+    <mat-card-actions style="display: flex; flex-direction: column">
+      <button (click)="navigateToComponent('/dashboard/active-park')" color="primary" mat-flat-button>Gestionar autos pensionados</button>
+      <button (click)="navigateToComponent('/dashboard/payment-history')" color="primary" mat-flat-button>Ver el historial de pagos
+      </button>
+      <button color="accent" mat-button>Solicitar asistencia</button>
+    </mat-card-actions>
+    <mat-card-footer>
+      <small></small>
+    </mat-card-footer>
+  </mat-card>
+</div>
