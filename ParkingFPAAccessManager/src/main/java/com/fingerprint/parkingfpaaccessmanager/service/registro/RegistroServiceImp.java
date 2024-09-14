@@ -101,8 +101,13 @@ public class RegistroServiceImp implements RegistroService {
         tblregistry.setTblusr(usuarioDao.findTblusrByTokenusr(token));
         tblregistry.setTblest(estacionamientoDao.saveOrUpdateTblest(tblest));
 
+        Tblregistry registro = registroDao.createOrUpdateRegistry(tblregistry);
+        Map<String,Object> responseMap = new LinkedHashMap<>();
+        responseMap.put("registro",registro);
+        responseMap.put("fecha",utilService.getDateAndHourFormated(tblest.getEntrydate()));
+
         // Guardar y devolver la respuesta
-        return response.okResponse("Registry created", registroDao.createOrUpdateRegistry(tblregistry));
+        return response.okResponse("Registry created", responseMap);
     }
 
     @Override
@@ -122,7 +127,7 @@ public class RegistroServiceImp implements RegistroService {
                 }
 
                 Map<String, Object> responseMap = new LinkedHashMap<>();
-                responseMap.put("entryDate", utilService.getDateAndHourFormated(est.getEntrydate()));
+                responseMap.put("fecha", utilService.getDateAndHourFormated(est.getEntrydate()));
                 return response.okResponse("Registro encontrado", responseMap);
             }
         }
