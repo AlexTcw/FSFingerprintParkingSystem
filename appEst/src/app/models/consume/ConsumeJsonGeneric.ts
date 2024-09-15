@@ -2,14 +2,31 @@ export interface ConsumeJsonGeneric {
   datos: Map<string, any>;
 }
 
+export interface ConsumeJsonGenericToken{
+  datos:{
+    token:string;
+  }
+}
+
 export interface ConsumeUsuario {
   datos: {
     email: string;
     login: string;
-    idcar: any[];  // Ajustar el tipo según lo esperado para este campo
+    idcar: any[];
     nameusr: string;
     password: string;
-    typeusr: string | number;  // Según lo que se espera del servicio
+    typeusr: string | number;
   };
-  // Otros campos si es necesario
+}
+
+export interface ConsumeJsonPage{
+  "datos": {
+    actFlag?:number,
+    startDate?: string,
+    endDate?: string,
+    key?: string,
+    type?: string,
+    page?:number,
+    size?:number
+  }
 }

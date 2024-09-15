@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {environment} from "../../../environments/environment";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {firstValueFrom, Observable} from "rxjs";
 import {ConsumeJsonGeneric, ConsumeUsuario} from "../../models/consume/ConsumeJsonGeneric";
 import {ConsumeJsonString} from "../../models/consume/ConsumeJsonString";
 import {ConsumeJsonLong} from "../../models/consume/ConsumeJsonLong";
@@ -81,5 +81,16 @@ export class UsersService {
   validEmail(data: any): Observable<any> {
     const headers = this.headers;
     return this.http.post(`${this.baseURL}/validEmail`, data, {headers});
+  }
+
+  async existUsrByToken(token:string):Promise<boolean> {
+    const consume:ConsumeJsonString = {name:token}
+    try {
+      const response:any = await firstValueFrom(this.findUserByToken(consume));
+      return response.datos.code === 200;
+    } catch (error) {
+      console.log(error)
+      return false;
+    }
   }
 }

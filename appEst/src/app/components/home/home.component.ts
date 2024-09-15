@@ -3,7 +3,6 @@ import {WebSocketService} from "../../services/webSocket/web-socket.service";
 import {Router} from "@angular/router";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {RegistryService} from "../../services/resgistry/registry.service";
-import {MatDialog} from "@angular/material/dialog";
 import {UsersService} from "../../services/users/users.service";
 import {MyErrorStateMatcher} from "../../shared/validators/MyErrorStateMatcher";
 import {ConsumeJsonStringString} from "../../models/consume/ConsumeJsonStringString";
@@ -14,7 +13,7 @@ import {ConsumeJsonStringString} from "../../models/consume/ConsumeJsonStringStr
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-    protected readonly localStorage = localStorage;
+    //protected readonly localStorage = localStorage;
 
     /*Component variables*/
   form: FormGroup;
@@ -28,7 +27,6 @@ export class HomeComponent implements OnInit {
                 private router: Router,
                 private fb: FormBuilder,
                 private registryService: RegistryService,
-                private dialog: MatDialog,
                 private userService:UsersService) {
       this.form = this.fb.group({
         emailOrUsername: ['', [
@@ -46,24 +44,22 @@ export class HomeComponent implements OnInit {
     }
   ngOnInit(): void {
       this.resetState();
-      /*
-      * this.connect();*/
+      this.connect();
   }
 
-  /*
   private connect() {
     this.webSocketService.connect((message) => this.handleMessage(message));
-    this.connected = true;}
+    this.connected = true;
+  }
 
-    private handleMessage(message: any) {
-    if (!message || !message.content) {
-      this.message = 'Received empty or invalid message';
-      console.log(this.message);
-      return;
-    }
+  private handleMessage(message: any) {
+      if (!message || !message.content) {
+        this.message = 'Received empty or invalid message';
+        console.log(this.message);
+        return;}
 
     const content = message.content;
-    const match = content.match(/Hello, (\d+)/);
+    const match = content.match(/Hello, ([a-zA-Z0-9-]+)/);
 
     if (!match) {
       this.message = 'Received message does not match expected format';
@@ -72,52 +68,41 @@ export class HomeComponent implements OnInit {
     }
 
     const token:string = match[1];
-  this.existUsrOrRegistryByToken(token).then(() => null);
-  return;
+    sessionStorage.setItem("token",token);
+    this.existUserByToken(token).then((component) => {
+      this.router.navigate([`/${component}`]).then(() => null);
+    }).catch((error) => {
+      console.error("Error during user check or navigation:", error);
+    });
+    return;
   }
 
-   private async existUsrOrRegistryByToken(token: any) {
-    localStorage.setItem('fingerprint', token);
-    const validUser: boolean = await this.userService.validateUsrByToken(token);
+  private async existUserByToken(token: string): Promise<string | undefined> {
+    const validUser: boolean = await this.userService.existUsrByToken(token);
 
-    if (this.creatingUser != 1){
-      if (validUser) { // Si existe un usuario con ese token
-        console.log("Hay un usuario");
-        await this.router.navigate(['/dashboard']);
-      } else { // No existe un usuario con ese token
-        console.log("No hay usuario");
-        const validRegistry: boolean = await this.validateRegistryByToken(token);
-        if (validRegistry) { // Si ya tiene un registro - Solo consulta
-          await this.router.navigate(['/consult']);
-        } else { // No tiene registro - Lo crea
-          await this.router.navigate(['/generic']);
-        }
-      }
+    if (validUser) {
+      // Si el usuario es válido, llama a existRegistryByToken
+      return this.existRegistryByToken(token);
+    } else {
+      console.log("No hay usuario");
+      return undefined;  // Es mejor retornar 'undefined' explícitamente si no hay usuario
     }
   }
 
-  private async validateRegistryByToken(token:string):Promise<boolean>{
-    const data: { value1?: string } = { value1: token };
-    const response = await firstValueFrom(this.registryService.findRegistryByToken(data));
-    try {
-      if (response.datos.code === 200) {
-        return true;
-      } else if(response.datos.code === 401){
-        localStorage.setItem('registry', JSON.stringify(response.datos));
-        return false;
-      }else{
-        throw new Error('Unexpected response code');
-      }
-    }catch (error) {
-      console.log(error)
-      return false;
+  private async existRegistryByToken(token: string): Promise<string> {
+    const validReg: boolean = await this.registryService.existRegistryByToken(token);
+
+    if (validReg) {
+      return "consult";
+    } else {
+      return "register";
     }
   }
-   */
 
   private resetState(): void {
     this.rotatedState = 0;
-    localStorage.clear()
+    localStorage.clear();
+    sessionStorage.clear();
   }
 
   togglePasswordVisibility(): void {
@@ -149,13 +134,13 @@ export class HomeComponent implements OnInit {
               if (emailResponse.datos && response.datos.code === 200) {
                 localStorage.setItem('user', JSON.stringify(emailResponse.datos.obj));
                 console.log('User success');
-                this.router.navigate(['/dashboard']);
+                this.router.navigate(['/dashboard']).then(() => null);
               } else {
                 //If both attempts fail, we display an error message
                 this.form.setErrors({ invalid: true });
               }
             },
-              (emailError) => {
+              () => {
                 // En caso de error en la llamada del correo
                 this.form.setErrors({ invalidLogin: true });
               }

@@ -28,8 +28,6 @@ export class RegisterComponent implements OnInit {
       const consume: ConsumeJsonGenericToken = { datos: { token: this.token } };
       this.registryService.setNewRegistryByToken(consume).subscribe((response: any) => {
         if (response.datos && response.datos.code === 200) {
-          console.log(response.datos.obj.fecha.value1);
-          console.log("Success");
           this.fechaEntrada = response.datos.obj.fecha.value1;
           this.horaEntrada = response.datos.obj.fecha.value2;
         }

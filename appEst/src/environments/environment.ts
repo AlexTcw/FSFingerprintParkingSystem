@@ -3,7 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  backendURL: 'http://localhost:8081',
+  backendURL: 'https://parking-uaem.ddns.net:8080',
   production: false,
 };
 

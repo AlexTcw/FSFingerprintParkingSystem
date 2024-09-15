@@ -7,10 +7,14 @@ import {DashboardHomeComponent} from "./components/dashboard/dashboard-home/dash
 import {ActiveParkComponent} from "./components/dashboard/active-park/active-park.component";
 import {ActiveUsersComponent} from "./components/dashboard/active-users/active-users.component";
 import {HistoricComponent} from "./components/dashboard/historic/historic.component";
+import {RegisterComponent} from "./components/registryManagment/register/register.component";
+import {ConsultComponent} from "./components/registryManagment/consult/consult.component";
 
 const routes: Routes = [
   /*Main components*/
   {path: 'home', component: HomeComponent},
+  {path: 'register', component:RegisterComponent},
+  {path: 'consult', component:ConsultComponent},
   {path: 'dashboard',
     /*Dash modules*/
     component:MainComponent,

@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import {environment} from "../../../environments/environment";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {Observable} from "rxjs";
-import {ConsumeJsonGeneric} from "../../models/consume/ConsumeJsonGeneric";
+import {firstValueFrom, Observable} from "rxjs";
+import {ConsumeJsonGeneric, ConsumeJsonGenericToken} from "../../models/consume/ConsumeJsonGeneric";
+import {ConsumeJsonString} from "../../models/consume/ConsumeJsonString";
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class RegistryService {
   headers = new HttpHeaders({'Content-Type': 'application/json'});
   constructor(private http: HttpClient) { }
 
-  setNewRegistryByToken(consume: ConsumeJsonGeneric): Observable<any> {
+  setNewRegistryByToken(consume: ConsumeJsonGenericToken): Observable<any> {
     return this.http.post<any>(
       `${this.baseURL}/createOrUpdateRegistry`,
       consume,
@@ -20,7 +21,7 @@ export class RegistryService {
     ).pipe();
   }
 
-  findRegistryByToken(consume: ConsumeJsonGeneric): Observable<any> {
+  findRegistryByToken(consume: ConsumeJsonGenericToken): Observable<any> {
     return this.http.post<any>(
       `${this.baseURL}/findRegistryByToken`,
       consume,
@@ -33,5 +34,20 @@ export class RegistryService {
       `${this.baseURL}/findAllRegistries`,
       { headers: this.headers }
     );
+  }
+
+  async existRegistryByToken(token:string):Promise<boolean> {
+    const consume:ConsumeJsonGenericToken ={
+      datos:{
+        token:token,
+      }
+    }
+    try {
+      const response:any = await firstValueFrom(this.findRegistryByToken(consume));
+      return response.datos.code === 200;
+    } catch (error) {
+      console.log(error)
+      return false;
+    }
   }
 }

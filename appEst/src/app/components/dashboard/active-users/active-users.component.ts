@@ -21,16 +21,16 @@ export class ActiveUsersComponent implements OnInit{
   constructor(private usuarioService: UsersService) { }
 
   ngOnInit(): void {
-    this.getEstByType(this.toggleTypeControl.value);
+    this.getUserByType(this.toggleTypeControl.value);
 
     this.toggleTypeControl.valueChanges.subscribe((value: string | null) => {
       if (value) {
-        this.getEstByType(value); // Actualiza los datos según el nuevo valor
+        this.getUserByType(value); // Actualiza los datos según el nuevo valor
       }
     });
   }
 
-  getEstByType(type: string | null): void {
+  getUserByType(type: string | null): void {
     if (type != null) {
       const consume: ConsumeJsonString = {
         name: type
@@ -44,7 +44,7 @@ export class ActiveUsersComponent implements OnInit{
           } else {
             this.dataSource.data = []; // Maneja el caso en que no hay datos
           }
-          console.log(response); // Muestra la respuesta en consola
+          //console.log(response); // Muestra la respuesta en consola
         },
         error: (error) => {
           console.error('Error al obtener datos', error); // Manejo de errores

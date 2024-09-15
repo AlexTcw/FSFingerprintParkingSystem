@@ -34,6 +34,10 @@ import { DashboardHomeComponent } from './components/dashboard/dashboard-home/da
 import { SignUpComponent } from './components/users/sign-up/sign-up.component';
 import {MatTabsModule} from "@angular/material/tabs";
 import { ClockComponent } from './shared/clock/clock.component';
+import { RegisterComponent } from './components/registryManagment/register/register.component';
+import { ConsultComponent } from './components/registryManagment/consult/consult.component';
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatNativeDateModule} from "@angular/material/core";
 
 @NgModule({
   declarations: [
@@ -49,33 +53,38 @@ import { ClockComponent } from './shared/clock/clock.component';
     SidenavUtilComponent,
     DashboardHomeComponent,
     SignUpComponent,
-    ClockComponent
+    ClockComponent,
+    RegisterComponent,
+    ConsultComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    MatListModule,
-    MatDividerModule,
-    NgOptimizedImage,
-    MatCardModule,
-    MatButtonModule,
-    MatIconModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatInputModule,
-    HttpClientModule,
-    MatDialogModule,
-    MatChipsModule,
-    ReactiveFormsModule,
-    MatCheckboxModule,
-    MatRadioModule,
-    FormsModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatSelectModule,
-    MatTabsModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        MatListModule,
+        MatDividerModule,
+        NgOptimizedImage,
+        MatCardModule,
+        MatButtonModule,
+        MatIconModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatInputModule,
+        HttpClientModule,
+        MatDialogModule,
+        MatChipsModule,
+        ReactiveFormsModule,
+        MatCheckboxModule,
+        MatRadioModule,
+        FormsModule,
+        MatTableModule,
+        MatPaginatorModule,
+        MatSelectModule,
+        MatTabsModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

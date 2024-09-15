@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
 import {Observable} from "rxjs";
-import {ConsumeJsonGeneric} from "../../models/consume/ConsumeJsonGeneric";
+import {ConsumeJsonGeneric, ConsumeJsonPage} from "../../models/consume/ConsumeJsonGeneric";
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,7 @@ export class EstacionamientoService {
   headers = new HttpHeaders({'Content-Type': 'application/json'});
   constructor(private http: HttpClient) { }
 
-  searchEstByParam(consume: ConsumeJsonGeneric): Observable<any> {
+  searchEstByParam(consume: ConsumeJsonPage): Observable<any> {
     return this.http.post<any>(
       `${this.baseURL}/searchEstByParam`,
       consume,
