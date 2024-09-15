@@ -1,5 +1,4 @@
-import { Component } from '@angular/core';
-import Swal from "sweetalert2";
+import {Component, OnInit} from '@angular/core';
 import {RegistryService} from "../../../services/resgistry/registry.service";
 import {ConsumeJsonGenericToken} from "../../../models/consume/ConsumeJsonGeneric";
 import {Router} from "@angular/router";
@@ -9,7 +8,7 @@ import {Router} from "@angular/router";
   templateUrl: './consult.component.html',
   styleUrls: ['./consult.component.scss']
 })
-export class ConsultComponent {
+export class ConsultComponent implements OnInit{
 
   fechaEntrada: string = "";
   horaEntrada: string = "";
@@ -54,7 +53,4 @@ export class ConsultComponent {
   handleNavigate(component:string){
     this.router.navigate([`/${component}`]).then(() => null);
   }
-
-
-
 }

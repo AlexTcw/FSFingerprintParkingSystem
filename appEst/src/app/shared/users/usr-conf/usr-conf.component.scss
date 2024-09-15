@@ -19,13 +19,13 @@
     }
   }
 
-  .mat-dialog-actions{
-    margin-top: 1rem !important;
-    display: flex !important;
-    justify-content: center !important;
+  .actions-container{
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 
     button{
-      width: 40% !important;
+      width:100%;
     }
   }
 }

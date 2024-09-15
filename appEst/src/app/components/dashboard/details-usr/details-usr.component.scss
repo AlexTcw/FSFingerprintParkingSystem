@@ -2,7 +2,7 @@
   width: 90%;
   height: 100vh;
   mat-card{
-    background-color: #282c30 ;
+    background-color: #282c30;
     mat-card-header{
       height: 15vh;
       display: flex;
@@ -16,6 +16,18 @@
         font-size: 2rem;
         align-items: center;
       }
+    }
+    .actions-container{
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      button {
+        display: flex;
+        gap: 2rem;
+        width: 48%;
+      }
+//      padding-bottom: 2rem;
     }
   }
 }

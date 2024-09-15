@@ -4,9 +4,6 @@
       <mat-icon style="font-weight: 500">view_headline</mat-icon>
     </button>
     <div *ngIf="collapsed" @fadeInOut class="logo-text">Admin</div>
-    <!--<button (click)="closeSidenav()" *ngIf="collapsed" @rotate class="btn-close">
-      <mat-icon>close</mat-icon>
-    </button>-->
   </div>
   <ul class="sidenav-nav">
     <li *ngFor="let data of getFilteredNavData()" class="sidenav-nav-item">

@@ -9,6 +9,7 @@ import {ActiveUsersComponent} from "./components/dashboard/active-users/active-u
 import {HistoricComponent} from "./components/dashboard/historic/historic.component";
 import {RegisterComponent} from "./components/registryManagment/register/register.component";
 import {ConsultComponent} from "./components/registryManagment/consult/consult.component";
+import {DetailsUsrComponent} from "./components/dashboard/details-usr/details-usr.component";
 
 const routes: Routes = [
   /*Main components*/
@@ -23,6 +24,7 @@ const routes: Routes = [
       {path: 'dashboard-home', component: DashboardHomeComponent},
       {path: 'active-park', component: ActiveParkComponent},
       {path: 'active-users', component:ActiveUsersComponent},
+      {path: 'active-users/details/:cveusr', component: DetailsUsrComponent },
       {path: 'history', component:HistoricComponent},
       {path: '', redirectTo: 'dashboard-home', pathMatch: 'full'}
     ]

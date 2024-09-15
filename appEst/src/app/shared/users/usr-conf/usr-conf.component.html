@@ -1,11 +1,12 @@
 <div class="main-container">
-  <div mat-dialog-title>
-    <h1>Registrar nuevo usuario</h1>
-  </div>
-
   <div mat-dialog-content class="mat-dialog-content">
     <form [formGroup]="form" (ngSubmit)="saveUser()">
 
+      <div class="actions-container">
+        <button mat-raised-button color="warn" (click)="handleNavigate(cancelComponent)">Cancel</button>
+        <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid">Save</button>
+      </div>
+      <br>
       <div class="head-body-form">
         <mat-form-field appearance="fill" class="example-full-width email-field">
           <mat-label>Email</mat-label>
@@ -14,8 +15,8 @@
             formControlName="email"
             matInput
             placeholder="Ex. pat@example.com"
-            type="email"
-          >
+            type="email">
+
           <mat-hint *ngIf="form.get('email')?.valid && form.get('email')?.touched">
             Looks good!
           </mat-hint>
@@ -115,11 +116,6 @@
           <mat-option value="2">Generic</mat-option>
         </mat-select>
       </mat-form-field>
-      <div mat-dialog-actions class="mat-dialog-actions">
-        <button [mat-dialog-close]="true" mat-raised-button color="warn" (click)="unsetTokenFromLocalStorage()">Cancel</button>
-        <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid">Save</button>
-      </div>
-
     </form>
   </div>
 </div>

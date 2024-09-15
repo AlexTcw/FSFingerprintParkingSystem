@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {Estacionamiento} from "../../../models/entity/Estacionamiento";
 import {MatTableDataSource} from "@angular/material/table";
 import {ConsumeJsonString} from "../../../models/consume/ConsumeJsonString";
 import {UsersService} from "../../../services/users/users.service";
 import {Usuario} from "../../../models/entity/Usuario";
 import {ResponseJsonGeneric} from "../../../models/response/ResponseJsonGeneric";
 import {FormControl} from "@angular/forms";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-active-users',
@@ -18,14 +18,15 @@ export class ActiveUsersComponent implements OnInit{
   dataSource = new MatTableDataSource<Usuario>();
   toggleTypeControl = new FormControl('0');
 
-  constructor(private usuarioService: UsersService) { }
+  constructor(private usuarioService: UsersService,
+              private router:Router) { }
 
   ngOnInit(): void {
     this.getUserByType(this.toggleTypeControl.value);
 
     this.toggleTypeControl.valueChanges.subscribe((value: string | null) => {
       if (value) {
-        this.getUserByType(value); // Actualiza los datos según el nuevo valor
+        this.getUserByType(value);
       }
     });
   }
@@ -51,5 +52,10 @@ export class ActiveUsersComponent implements OnInit{
         }
       });
     }
+  }
+
+  handleNavigate(row:any){
+    const cveusr = row.cveusr
+    this.router.navigate(['/dashboard/active-users/details/',cveusr]).then(() => null);
   }
 }

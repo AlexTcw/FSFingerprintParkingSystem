@@ -10,11 +10,13 @@ export interface ConsumeJsonGenericToken{
 
 export interface ConsumeUsuario {
   datos: {
+    cveusr?:number,
     email: string;
     login: string;
     idcar: any[];
     nameusr: string;
     password: string;
+    token?:string,
     typeusr: string | number;
   };
 }

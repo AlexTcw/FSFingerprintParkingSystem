@@ -42,7 +42,7 @@
               <!-- Fila del encabezado -->
               <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
               <!-- Fila de datos -->
-              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              <tr (click)="handleNavigate(row)" mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
             </table>
           </mat-card-content>
@@ -51,7 +51,10 @@
     </mat-tab>
     <mat-tab label="Crear usuarios">
       <div class="sign-up-container">
-        <app-sign-up></app-sign-up>
+        <div mat-dialog-title>
+          <h1>Registrar nuevo usuario</h1>
+        </div>
+        <app-usr-conf [cancelComponent]="'/dashboard/active-users'"></app-usr-conf>
       </div>
     </mat-tab>
   </mat-tab-group>

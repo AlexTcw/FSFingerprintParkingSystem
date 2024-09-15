@@ -31,13 +31,15 @@ import { SidenavComponent } from './components/dashboard/sidenav/sidenav/sidenav
 import { SidenavBodyComponent } from './components/dashboard/sidenav/sidenav-body/sidenav-body.component';
 import { SidenavUtilComponent } from './components/dashboard/sidenav/sidenav-util/sidenav-util.component';
 import { DashboardHomeComponent } from './components/dashboard/dashboard-home/dashboard-home.component';
-import { SignUpComponent } from './components/users/sign-up/sign-up.component';
 import {MatTabsModule} from "@angular/material/tabs";
 import { ClockComponent } from './shared/clock/clock.component';
 import { RegisterComponent } from './components/registryManagment/register/register.component';
 import { ConsultComponent } from './components/registryManagment/consult/consult.component';
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatNativeDateModule} from "@angular/material/core";
+import { RegPageComponent } from './shared/reg-page/reg-page.component';
+import {UsrConfComponent} from "./shared/users/usr-conf/usr-conf.component";
+import { DetailsUsrComponent } from './components/dashboard/details-usr/details-usr.component';
 
 @NgModule({
   declarations: [
@@ -52,10 +54,12 @@ import {MatNativeDateModule} from "@angular/material/core";
     SidenavBodyComponent,
     SidenavUtilComponent,
     DashboardHomeComponent,
-    SignUpComponent,
     ClockComponent,
     RegisterComponent,
     ConsultComponent,
+    RegPageComponent,
+    UsrConfComponent,
+    DetailsUsrComponent,
   ],
     imports: [
         BrowserModule,

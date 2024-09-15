@@ -1,0 +1,19 @@
+<div class="sign-up-container">
+  <mat-card>
+    <mat-card-header>
+      <h1>Configurar detalles de la cuenta</h1>
+      <mat-icon>account_circle</mat-icon>
+    </mat-card-header>
+    <div class="actions-container">
+      <button mat-flat-button color="warn" (click)="deleteUsrByCveUsr()">
+        <mat-icon>delete_forever</mat-icon> Borrar usuario</button>
+      <button mat-flat-button color="accent"> <mat-icon>folder_shared</mat-icon> Ver archivos</button>
+    </div>
+    <br>
+    <mat-card-content>
+      <app-usr-conf [cveusr]="cveusr"
+                    [cancelComponent]="'/dashboard/active-users'"
+      ></app-usr-conf>
+    </mat-card-content>
+  </mat-card>
+</div>
