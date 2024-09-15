@@ -3,6 +3,8 @@ package com.fingerprint.parkingfpaaccessmanager.dao.usuario;
 import com.fingerprint.parkingfpaaccessmanager.model.entity.Tblusr;
 import com.fingerprint.parkingfpaaccessmanager.repository.TblusrRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -81,6 +83,11 @@ public class UsuarioDaoImp implements UsuarioDao {
     @Override
     public Tblusr findTblustByCveusr(long cveusr) {
         return tblusrRepository.findTblusrByCveusr(cveusr);
+    }
+
+    @Override
+    public Page<Object> findAllUsersByType(String key, String typeusr, Pageable pageable) {
+        return tblusrRepository.findAllUsersByType(key,typeusr,pageable);
     }
 
 

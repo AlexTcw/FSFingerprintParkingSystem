@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {RegistryService} from "../../../services/resgistry/registry.service";
 import {ConsumeJsonGeneric, ConsumeJsonGenericToken} from "../../../models/consume/ConsumeJsonGeneric";
+import {Router} from "@angular/router";
+import {UtilService} from "../../../services/util/util.service";
 
 @Component({
   selector: 'app-register',
@@ -12,11 +14,14 @@ export class RegisterComponent implements OnInit {
   fechaEntrada: string = "";
   horaEntrada: string = "";
 
-  constructor(private registryService: RegistryService) {
+  constructor(private registryService: RegistryService,
+              private router:Router,
+              private util:UtilService) {
   }
 
   ngOnInit(): void {
-    this.saveRegistry()
+    this.saveRegistry();
+    this.util.initialize();
   }
 
   saveRegistry(): void {
@@ -35,5 +40,9 @@ export class RegisterComponent implements OnInit {
     } else {
       console.error("No token found in sessionStorage");
     }
+  }
+
+  handleNavigate(component:string){
+    this.router.navigate([component]).then(() => null);
   }
 }

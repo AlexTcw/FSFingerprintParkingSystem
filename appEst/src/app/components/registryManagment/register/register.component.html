@@ -18,8 +18,9 @@
         <mat-card class="data-card-card">
           <p>Hora de entrada :</p>
           <p class="dataFromJson">{{ horaEntrada }}</p></mat-card>
-        <button
-                color="primary" mat-flat-button>Continuar
+        <button color="primary" mat-flat-button
+                (click)="handleNavigate('/home')"
+        >Continuar
         </button>
       </mat-card>
     </mat-card-content>

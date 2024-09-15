@@ -126,8 +126,12 @@ public class RegistroServiceImp implements RegistroService {
                     return response.notFoundResponse("registries not found for " + data.get("token").toString());
                 }
 
+                Tblregistry reg = registroDao.findTblregistryByCveest(est.getCveest());
+
                 Map<String, Object> responseMap = new LinkedHashMap<>();
+                responseMap.put("cvereg", reg.getCvereg());
                 responseMap.put("fecha", utilService.getDateAndHourFormated(est.getEntrydate()));
+                responseMap.put("duracion",utilService.getTotalTimeForDateRange(est.getEntrydate(),LocalDateTime.now()));
                 return response.okResponse("Registro encontrado", responseMap);
             }
         }

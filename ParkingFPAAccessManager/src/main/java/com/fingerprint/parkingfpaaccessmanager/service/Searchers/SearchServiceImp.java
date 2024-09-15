@@ -12,7 +12,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class SearchServiceImp implements SearchService {
+public class
+SearchServiceImp implements SearchService {
 
     final
     EstacionamientoDao estacionamientoDao;

@@ -55,10 +55,10 @@ public class UsuarioController {
     }
 
     @PostMapping(value = {"/findAllUsers"}, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseJsonGeneric> findAllUsers(@RequestBody ConsumeJsonString consume) {
+    public ResponseEntity<ResponseJsonGeneric> findAllUsers(@RequestBody ConsumeJsonGeneric consume) {
         ResponseJsonGeneric response;
         try {
-            response = usuarioService.findAllUsersByTypeusr(consume.getName());
+            response = usuarioService.findAllUsersByTypeusr(consume);
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             ResponseJsonHandler errorResponse = new ResponseJsonHandler();

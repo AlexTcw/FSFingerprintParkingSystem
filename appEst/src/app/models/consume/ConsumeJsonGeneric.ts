@@ -4,7 +4,8 @@ export interface ConsumeJsonGeneric {
 
 export interface ConsumeJsonGenericToken{
   datos:{
-    token:string;
+    token:string,
+    cvereg?:number
   }
 }
 

@@ -1,6 +1,9 @@
 package com.fingerprint.parkingfpaaccessmanager.dao.usuario;
 
 import com.fingerprint.parkingfpaaccessmanager.model.entity.Tblusr;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -33,4 +36,6 @@ public interface UsuarioDao {
     List<Object[]> findAllCarIdByCveusr(long cveusr);
 
     Tblusr findTblustByCveusr(long cveusr);
+
+    Page<Object> findAllUsersByType(String key, String typeusr, Pageable pageable);
 }

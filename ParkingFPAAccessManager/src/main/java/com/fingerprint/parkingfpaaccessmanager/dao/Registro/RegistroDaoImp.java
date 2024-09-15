@@ -27,6 +27,7 @@ public class RegistroDaoImp implements RegistroDao {
         return tblregistryRepository.findTblregistryByCvereg(cvereg);
     }
 
+
     @Override
     public void deleteTblRegistryByCveregistry(long cvereg) {
         tblregistryRepository.deleteById(cvereg);
@@ -35,5 +36,10 @@ public class RegistroDaoImp implements RegistroDao {
     @Override
     public List<Tblregistry> findAllTblregistry() {
         return tblregistryRepository.findAll();
+    }
+
+    @Override
+    public Tblregistry findTblregistryByCveest(long cveest) {
+        return tblregistryRepository.findTblregistryBycveest(cveest);
     }
 }

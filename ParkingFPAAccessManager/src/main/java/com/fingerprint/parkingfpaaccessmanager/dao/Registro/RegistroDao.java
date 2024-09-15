@@ -14,4 +14,5 @@ public interface RegistroDao {
 
     List<Tblregistry> findAllTblregistry();
 
+    Tblregistry findTblregistryByCveest(long cveest);
 }

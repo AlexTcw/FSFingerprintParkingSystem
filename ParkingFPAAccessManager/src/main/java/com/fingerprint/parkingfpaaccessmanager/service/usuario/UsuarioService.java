@@ -15,7 +15,7 @@ public interface UsuarioService {
 
     ResponseJsonGeneric deleteUsrByCveusr(ConsumeJsonLong consume);
 
-    ResponseJsonGeneric findAllUsersByTypeusr(String typeusr);
+    public ResponseJsonGeneric findAllUsersByTypeusr(ConsumeJsonGeneric consume);
 
     ResponseJsonGeneric findUserByCveusr(ConsumeJsonLong consume);
 }

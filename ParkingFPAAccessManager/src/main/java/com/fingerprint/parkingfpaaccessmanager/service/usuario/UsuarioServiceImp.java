@@ -7,8 +7,11 @@ import com.fingerprint.parkingfpaaccessmanager.model.pojos.consume.ConsumeJsonLo
 import com.fingerprint.parkingfpaaccessmanager.model.pojos.response.ResponseJsonBoolean;
 import com.fingerprint.parkingfpaaccessmanager.model.pojos.response.ResponseJsonGeneric;
 import com.fingerprint.parkingfpaaccessmanager.model.pojos.util.ResponseJsonHandler;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -108,10 +111,6 @@ public class UsuarioServiceImp implements UsuarioService {
             }
             usr = this.reFillUsr(request, cveusr);
         } else {
-            /*if (usuarioDao.existsTblusrByTokenusr(request.get("token").toString())) {
-                return response.badRequestResponse("The token is taken", request.get("token").toString());
-            }*/
-
             if (usuarioDao.existsTblusrByLoginusr(request.get("login").toString())) {
                 return response.badRequestResponse("The login is taken", request.get("login").toString());
             }
@@ -160,10 +159,32 @@ public class UsuarioServiceImp implements UsuarioService {
     }
 
     @Override
-    public ResponseJsonGeneric findAllUsersByTypeusr(String typeusr) {
+    public ResponseJsonGeneric findAllUsersByTypeusr(ConsumeJsonGeneric consume) {
         ResponseJsonHandler response = new ResponseJsonHandler();
+        int page,size;
+        String type, key;
+        Pageable pageable;
+        Map<String,Object> results = new HashMap<>();
+        var data = consume.getDatos();
 
-        return response.okResponse("All users", usuarioDao.findAllUsrByTypeusr(typeusr));
+        if (data == null) {
+            return response.badRequestResponse("Json Null or malformed", consume);
+        }
+
+        key = data.containsKey("key") ? (String) data.get("key") : null;
+        type = data.containsKey("type") ? (String) data.get("type") : null;
+        page = data.containsKey("page") ? (Integer) data.get("page") : 0;
+        size = data.containsKey("size") ? (Integer) data.get("size") : 10;
+        pageable = PageRequest.of(page, size);
+
+        var usrResults = usuarioDao.findAllUsersByType(key, type, pageable);
+        results.put("content", usrResults.getContent());
+        results.put("page", usrResults.getNumber()); // Página actual
+        results.put("size", usrResults.getSize()); // Tamaño de la página
+        results.put("totalElements", usrResults.getTotalElements()); // Total de elementos
+        results.put("totalPages", usrResults.getTotalPages()); // Total de páginas
+
+        return response.okResponse("data", results);
     }
 
     @Override

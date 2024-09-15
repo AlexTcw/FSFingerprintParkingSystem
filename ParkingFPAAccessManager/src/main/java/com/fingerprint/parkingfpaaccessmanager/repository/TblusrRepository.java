@@ -1,6 +1,8 @@
 package com.fingerprint.parkingfpaaccessmanager.repository;
 
 import com.fingerprint.parkingfpaaccessmanager.model.entity.Tblusr;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -44,4 +46,19 @@ public interface TblusrRepository extends JpaRepository<Tblusr, Long> {
     List<Object[]> findAllCarIdByCveusr(@Param("cveusr") long cveusr);
 
     List<Tblusr> findAllByTypeusr(String typeusr);
+
+    @Query(value = """
+        SELECT u.*
+        from tblusr u
+        WHERE u.tokenusr is not null
+        AND (:key IS NULL
+                        OR (UPPER(REPLACE(u.nameusr, '-', '')) LIKE CONCAT('%', UPPER(REPLACE(:key, '-', '')), '%')
+                        OR REPLACE(u.cveusr, '-', '') LIKE CONCAT('%', REPLACE(:key, '-', ''), '%')
+                        OR REPLACE(u.loginusr, '-', '') LIKE CONCAT('%', REPLACE(:key, '-', ''), '%')
+                        OR REPLACE(u.emailusr, '-', '') LIKE CONCAT('%', REPLACE(:key, '-', ''), '%')))
+                    AND (:type IS NULL
+                        OR REPLACE(u.typeusr, '-', '') LIKE CONCAT('%', REPLACE(:type, '-', ''), '%'))
+        """,nativeQuery = true)
+    Page<Object> findAllUsersByType(@Param("key") String key,
+                                    @Param("type") String typeusr, Pageable pageable);
 }
