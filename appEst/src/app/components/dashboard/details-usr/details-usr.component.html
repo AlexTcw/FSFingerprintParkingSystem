@@ -7,12 +7,12 @@
     <div class="actions-container">
       <button mat-flat-button color="warn" (click)="deleteUsrByCveUsr()">
         <mat-icon>delete_forever</mat-icon> Borrar usuario</button>
-      <button mat-flat-button color="accent"> <mat-icon>folder_shared</mat-icon> Ver archivos</button>
+<!--      <button mat-flat-button color="accent"> <mat-icon>folder_shared</mat-icon> Ver archivos</button>-->
     </div>
     <br>
     <mat-card-content>
       <app-usr-conf [cveusr]="cveusr"
-                    [cancelComponent]="'/dashboard/active-users'"
+                    [cancelComponent]="'/dashboard'"
                     [validFlag]="1"
       ></app-usr-conf>
     </mat-card-content>

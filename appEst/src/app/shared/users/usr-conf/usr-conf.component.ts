@@ -178,7 +178,8 @@ export class UsrConfComponent implements OnInit{
     }
   }
 
-  handleNavigate(component:string){
-    this.router.navigate([component]).then(() => null);
+  handleNavigate(route: string): void {
+    this.router.navigate([route]).then(() => null);
   }
+
 }

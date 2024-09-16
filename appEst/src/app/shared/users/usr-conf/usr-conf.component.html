@@ -3,7 +3,7 @@
     <form [formGroup]="form" (ngSubmit)="saveUser()">
 
       <div class="actions-container">
-        <button mat-raised-button color="warn" (click)="handleNavigate(cancelComponent)">Cancel</button>
+        <button *ngIf="validFlag === 2" mat-raised-button color="warn" (click)="handleNavigate(cancelComponent)">Cancel</button>
         <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid">Save</button>
       </div>
       <br>

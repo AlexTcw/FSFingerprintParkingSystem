@@ -10,6 +10,7 @@ import {HistoricComponent} from "./components/dashboard/historic/historic.compon
 import {RegisterComponent} from "./components/registryManagment/register/register.component";
 import {ConsultComponent} from "./components/registryManagment/consult/consult.component";
 import {DetailsUsrComponent} from "./components/dashboard/details-usr/details-usr.component";
+import {authGuard} from "./auth/guards/auth.guard";
 
 const routes: Routes = [
   /*Main components*/
@@ -19,6 +20,7 @@ const routes: Routes = [
   {path: 'dashboard',
     /*Dash modules*/
     component:MainComponent,
+    canActivate: [authGuard],
     children:[
       {path: 'settings', component: SettingsComponent},
       {path: 'dashboard-home', component: DashboardHomeComponent},
