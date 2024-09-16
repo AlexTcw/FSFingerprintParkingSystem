@@ -14,11 +14,11 @@ import {Router} from "@angular/router";
   styleUrls: ['./usr-conf.component.scss']
 })
 export class UsrConfComponent implements OnInit{
-  @Input() cveusr:number = 0;
-  @Input() tokenusr: string ="";
+  @Input() cveusr: number = 0;
+  @Input() tokenusr: string = "";
   @Input() cancelComponent: string = '/home';
+  @Input() validFlag: number = 0;
   form: FormGroup;
-  formCarPlate: FormGroup;
   matcher = new MyErrorStateMatcher();
   showPassword: boolean = false;
 
@@ -35,7 +35,7 @@ export class UsrConfComponent implements OnInit{
 
   constructor(private userService: UsersService,
               private fb: FormBuilder,
-              private router:Router) {
+              private router: Router) {
     this.form = this.fb.group({
       email: ['', [
         Validators.required,
@@ -44,14 +44,15 @@ export class UsrConfComponent implements OnInit{
         Validators.minLength(5),
         Validators.maxLength(254)
       ],
-        [emailAsyncValidator(this.userService)]
+        [] // Validadores asíncronos se añadirán dinámicamente
       ],
       username: ['', [
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(20),
         Validators.pattern('^[a-zA-Z0-9_]*$')
-      ], [usernameAsyncValidator(this.userService)]],
+      ], [] // Validadores asíncronos se añadirán dinámicamente
+      ],
       name: ['', [
         Validators.required,
         Validators.minLength(8),
@@ -64,29 +65,22 @@ export class UsrConfComponent implements OnInit{
         Validators.maxLength(20),
         Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$')
       ]],
-      role:['',[
+      role: ['', [
         Validators.required
-      ]]
-    });
-    this.formCarPlate = this.fb.group({
-      carPlate: ['', [
-        Validators.required,
-        Validators.minLength(6),
-        Validators.maxLength(7),
-        Validators.pattern('^[A-Z0-9-]*$')
       ]]
     });
   }
 
   ngOnInit(): void {
-    this.validDataForm()
+    this.validDataForm();
+    this.setupValidators();
   }
 
   togglePasswordVisibility(): void {
     this.showPassword = !this.showPassword;
   }
 
-  validDataForm():void{
+  validDataForm(): void {
     const storedUsr = localStorage.getItem('user');
     if (storedUsr && this.cveusr === 0) {
       const usr = JSON.parse(storedUsr);
@@ -102,6 +96,17 @@ export class UsrConfComponent implements OnInit{
     }
   }
 
+  private setupValidators(): void {
+    if (this.validFlag > 0) {
+      // Ignorar validadores asíncronos si validFlag > 0
+      this.form.get('email')?.clearAsyncValidators();
+      this.form.get('username')?.clearAsyncValidators();
+    } else {
+      // Agregar validadores asíncronos si validFlag <= 0
+      this.form.get('email')?.setAsyncValidators(emailAsyncValidator(this.userService));
+      this.form.get('username')?.setAsyncValidators(usernameAsyncValidator(this.userService));
+    }
+  }
   findUsrByCveusr(cveusr: number, callback: (usr: any) => void): void {
     const consume: ConsumeJsonLong = {
       id: cveusr

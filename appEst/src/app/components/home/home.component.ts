@@ -131,7 +131,7 @@ export class HomeComponent implements OnInit {
             /*If the user was not found, try the email*/
             this.userService.findUsrByEmailAndPassword(consume).subscribe((emailResponse:any)=>
             {
-              if (emailResponse.datos && response.datos.code === 200) {
+              if (emailResponse.datos && emailResponse.datos.code === 200) {
                 localStorage.setItem('user', JSON.stringify(emailResponse.datos.obj));
                 console.log('User success');
                 this.router.navigate(['/dashboard']).then(() => null);
@@ -146,12 +146,7 @@ export class HomeComponent implements OnInit {
               }
             );
           }
-        },
-        (error) => {
-          // En caso de error en la llamada del nombre de usuario
-          this.form.setErrors({ invalidLogin: true });
-        }
-        );
+        });
     }
   }
 }
