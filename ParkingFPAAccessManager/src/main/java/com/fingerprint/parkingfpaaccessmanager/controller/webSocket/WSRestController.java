@@ -48,7 +48,7 @@ public class WSRestController {
 
     }
 
-    @PostMapping
+    @PostMapping("/api/sendSignal")
     public ResponseEntity<ResponseJsonGeneric>sendSignalWS(@RequestBody ConsumeJsonString consume){
         ResponseJsonGeneric response;
         try {
