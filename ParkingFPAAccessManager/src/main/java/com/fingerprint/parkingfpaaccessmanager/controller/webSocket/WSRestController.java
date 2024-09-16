@@ -35,6 +35,16 @@ public class WSRestController {
 
     @PostMapping("/api/sendGreeting")
     public ResponseEntity<ResponseJsonGeneric>validateTokenAndTriggerWS(@RequestBody ConsumeJsonString consume){
+        return getResponseJsonGenericResponseEntity(consume);
+
+    }
+
+    @PostMapping("api/sendSignal")
+    public ResponseEntity<ResponseJsonGeneric>sendSignalWS(@RequestBody ConsumeJsonString consume){
+        return getResponseJsonGenericResponseEntity(consume);
+    }
+
+    private ResponseEntity<ResponseJsonGeneric> getResponseJsonGenericResponseEntity(@RequestBody ConsumeJsonString consume) {
         ResponseJsonGeneric response;
         try {
             response = webSocketService.findUserByToken(consume.getName());
@@ -45,6 +55,6 @@ public class WSRestController {
             response = errorResponse.serverErrorResponse("An error occurred: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
-
     }
+
 }

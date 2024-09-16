@@ -1,6 +1,7 @@
 package com.fingerprint.parkingfpaaccessmanager.controller.webSocket;
 
 
+import com.fingerprint.parkingfpaaccessmanager.model.pojos.consume.ConsumeJsonString;
 import com.fingerprint.parkingfpaaccessmanager.model.webSocket.Greeting;
 import com.fingerprint.parkingfpaaccessmanager.model.webSocket.HelloMessage;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -30,6 +31,18 @@ public class WSController {
     public void sendGreeting(String name) {
         Greeting greeting = new Greeting("Hello, " + HtmlUtils.htmlEscape(name) + "!");
         messagingTemplate.convertAndSend("/topic/greetings", greeting);
+    }
+
+    @MessageMapping("/code")
+    @SendTo("/topic/signal")
+    public Greeting signal(ConsumeJsonString consume) throws Exception{
+        Thread.sleep(1000); // simulated delay
+        return new Greeting("Hello, " + HtmlUtils.htmlEscape(consume.getName()) + "!");
+    }
+
+    public void sendSignal(String name) {
+        Greeting greeting = new Greeting("Hello, " + HtmlUtils.htmlEscape(name) + "!");
+        messagingTemplate.convertAndSend("/topic/signal", greeting);
     }
 
 }
