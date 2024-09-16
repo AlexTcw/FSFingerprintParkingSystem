@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {environment} from "../../../environments/environment";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {firstValueFrom, Observable} from "rxjs";
-import {ConsumeJsonGeneric, ConsumeUsuario} from "../../models/consume/ConsumeJsonGeneric";
+import {ConsumeJsonGeneric, ConsumeJsonPage, ConsumeUsuario} from "../../models/consume/ConsumeJsonGeneric";
 import {ConsumeJsonString} from "../../models/consume/ConsumeJsonString";
 import {ConsumeJsonLong} from "../../models/consume/ConsumeJsonLong";
 import {ConsumeJsonStringString} from "../../models/consume/ConsumeJsonStringString";
@@ -31,7 +31,7 @@ export class UsersService {
     ).pipe();
   }
 
-  findAllUsers(consume: ConsumeJsonString): Observable<any> {
+  findAllUsers(consume: ConsumeJsonPage): Observable<any> {
     return this.http.post<any>(
       `${this.baseURL}/findAllUsers`,
       consume,

@@ -1,42 +1,57 @@
 <div class="main-container">
+  <h1>Ver Usuarios activos</h1>
   <mat-tab-group>
     <mat-tab label="Gestionar usuarios">
+      <br>
       <div class="left-container">
         <mat-card>
-          <mat-card-title style="margin: 2% 10% 2% 5%; display: flex; flex-direction: row;">
-            <h1>Ver Usuarios activos</h1>
-            <mat-form-field style="margin-left: 50%">
-              <mat-label>Tipo de usuario</mat-label>
-              <mat-select [formControl]="toggleTypeControl">
-                <mat-option value="0">Admin</mat-option>
-                <mat-option value="1">Regular</mat-option>
-                <mat-option value="2">Generic</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </mat-card-title>
+            <div class="searchContainer">
+          <mat-form-field class="search">
+            <input matInput type="text" [(ngModel)]="searchInitValue"
+                   (keydown.enter)="onSearch()"
+                   placeholder="Buscar...">
+            <button *ngIf="searchInitValue" matSuffix mat-icon-button aria-label="Clear" (click)="searchInitValue=''">
+              <mat-icon>close</mat-icon>
+            </button>
+            <button class="searchButton" matSuffix mat-icon-button (click)="onSearch()">
+              <mat-icon>search</mat-icon>
+            </button>
+          </mat-form-field>
+              <mat-form-field class="selectType">
+                <mat-label>seleccione un tipo de usuario</mat-label>
+                <mat-select (selectionChange)="onUserTypeChange($event)">
+                  <mat-option value="0">Admin</mat-option>
+                  <mat-option value="1">Regular</mat-option>
+                  <mat-option value="2">Generic</mat-option>
+                </mat-select>
+              </mat-form-field>
+          </div>
           <mat-card-content class="mat-elevation-z8" tabindex="0">
             <table mat-table [dataSource]="dataSource" class="usuarios-container">
-
-              <!-- Definición de columna 'nameusr' -->
-              <ng-container matColumnDef="nameusr">
-                <th mat-header-cell *matHeaderCellDef>Nombre</th>
-                <td mat-cell *matCellDef="let element">{{ element.nameusr }}</td>
+              <!-- Define Columns Here -->
+              <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef> ID </th>
+                <td mat-cell *matCellDef="let element"> {{ element.id }} </td>
               </ng-container>
-              <ng-container matColumnDef="loginusr">
-                <th mat-header-cell *matHeaderCellDef>UserName</th>
-                <td mat-cell *matCellDef="let element">{{ element.loginusr }}</td>
+              <ng-container matColumnDef="email">
+                <th mat-header-cell *matHeaderCellDef> Email </th>
+                <td mat-cell *matCellDef="let element"> {{ element.email }} </td>
               </ng-container>
-              <ng-container matColumnDef="emailusr">
-                <th mat-header-cell *matHeaderCellDef>Correo</th>
-                <td mat-cell *matCellDef="let element">{{ element.emailusr }}</td>
+              <ng-container matColumnDef="username">
+                <th mat-header-cell *matHeaderCellDef> Username </th>
+                <td mat-cell *matCellDef="let element"> {{ element.username }} </td>
               </ng-container>
-              <ng-container matColumnDef="passwordusr">
-                <th mat-header-cell *matHeaderCellDef>Contraseña</th>
-                <td mat-cell *matCellDef="let element">{{ element.passwordusr }}</td>
+              <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef> Nombre </th>
+                <td mat-cell *matCellDef="let element"> {{ element.name }} </td>
               </ng-container>
-              <ng-container matColumnDef="tokenusr">
-                <th mat-header-cell *matHeaderCellDef>Token</th>
-                <td mat-cell *matCellDef="let element">{{ element.tokenusr}}</td>
+              <ng-container matColumnDef="password">
+                <th mat-header-cell *matHeaderCellDef> Contraseña </th>
+                <td mat-cell *matCellDef="let element"> {{ element.password }} </td>
+              </ng-container>
+              <ng-container matColumnDef="token">
+                <th mat-header-cell *matHeaderCellDef> Token </th>
+                <td mat-cell *matCellDef="let element"> {{ element.token }} </td>
               </ng-container>
 
               <!-- Fila del encabezado -->
@@ -45,6 +60,12 @@
               <tr (click)="handleNavigate(row)" mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
             </table>
+            <mat-paginator [length]="length+1"
+                           [pageSize]="pageSize"
+                           [pageSizeOptions]="[5, 10, 25, 100]"
+                           aria-label="Select page"
+                           (page)="onPageChange($event)">
+            </mat-paginator>
           </mat-card-content>
         </mat-card>
       </div>
@@ -54,7 +75,7 @@
         <div mat-dialog-title>
           <h1>Registrar nuevo usuario</h1>
         </div>
-        <app-usr-conf [cancelComponent]="'/dashboard/active-users'"></app-usr-conf>
+        <app-usr-conf></app-usr-conf>
       </div>
     </mat-tab>
   </mat-tab-group>

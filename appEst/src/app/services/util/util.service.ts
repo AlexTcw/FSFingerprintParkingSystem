@@ -8,7 +8,7 @@ import {Router} from "@angular/router";
   providedIn: 'root'
 })
 export class UtilService {
-  private inactivityTimeout = 6000;
+  private inactivityTimeout = 60000;
   private idle$: Observable<Event> = new Observable<Event>();
 
   baseURL = `${environment.backendURL}/util`;

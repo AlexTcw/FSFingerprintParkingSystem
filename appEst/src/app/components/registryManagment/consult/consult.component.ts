@@ -45,8 +45,10 @@ export class ConsultComponent implements OnInit{
         if (response?.datos?.code === 200 && response.datos.obj) {
           const { obj } = response.datos;
           if (obj.fecha) {
+            console.log(obj)
             this.fechaEntrada = obj.fecha.value1;
             this.horaEntrada = obj.fecha.value2;
+            this.tiempoUso = obj.duracion.name
             this.cvereg = obj.cvereg
           } else {
             console.warn('Fecha no disponible en el objeto.');
