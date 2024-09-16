@@ -19,10 +19,8 @@ services:
         ipv4_address: 192.18.0.10
     ports:
       - '3306:3306'
-    expose:
-      - '3306'
     volumes:
-      - db-data:/var/lib/mysql  # Agrega el volumen para la base de datos
+      - /var/lib/jenkins/workspace/mysql_data:/var/lib/mysql
 
   admin-backend:
     image: alextcw/admin-parking:v2.0
@@ -32,12 +30,11 @@ services:
         ipv4_address: 192.18.0.20
     ports:
       - '8080:8080'
-    expose:
-      - '8080'
     depends_on:
       - estacionamiento-db
     volumes:
-      - images-data:/home/alextcw/Files/images  # Agrega el volumen para las imágenes
+      - /var/lib/jenkins/workspace/GitHubActuator/images-data:/home/alextcw/Files/images
+
   admin-frontend:
     image: alextcw/admin-p-app-parking:v1.0
     restart: always
@@ -46,12 +43,5 @@ services:
         ipv4_address: 192.18.0.30
     ports:
       - '4200:4200'
-    expose:
-      - '4200'
     depends_on:
       - admin-backend
-        
-volumes:
-  db-data:  # Define el volumen para la base de datos
-  images-data:  # Define el volumen para las imágenes
-
