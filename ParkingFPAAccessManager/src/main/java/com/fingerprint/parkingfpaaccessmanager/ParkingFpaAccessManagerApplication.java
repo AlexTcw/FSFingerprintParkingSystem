@@ -16,7 +16,7 @@ public class ParkingFpaAccessManagerApplication {
     @PostConstruct
     public void init(){
         // Establecer la zona horaria predeterminada
-        TimeZone.setDefault(TimeZone.getTimeZone("America/Mexico_City"));
+        TimeZone.setDefault(TimeZone.getTimeZone("America/Monterrey"));
     }
 
 }
