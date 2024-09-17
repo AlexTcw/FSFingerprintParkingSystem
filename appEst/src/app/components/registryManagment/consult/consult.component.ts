@@ -27,6 +27,7 @@ export class ConsultComponent implements OnInit{
 
   ngOnInit(): void {
     this.getRegistryByToken();
+    this.sendSignal();
     this.util.initialize();
   }
 
