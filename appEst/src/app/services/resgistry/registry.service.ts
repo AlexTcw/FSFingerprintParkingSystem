@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 import {environment} from "../../../environments/environment";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {firstValueFrom, Observable} from "rxjs";
-import {ConsumeJsonGeneric, ConsumeJsonGenericToken} from "../../models/consume/ConsumeJsonGeneric";
-import {ConsumeJsonString} from "../../models/consume/ConsumeJsonString";
+import {ConsumeJsonGenericToken} from "../../models/consume/ConsumeJsonGeneric";
 
 @Injectable({
   providedIn: 'root'
