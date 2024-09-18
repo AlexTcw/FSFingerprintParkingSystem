@@ -9,9 +9,6 @@ import {ResponseJsonPage} from "../../models/response/ResponseJsonPage";
 import {MatTabChangeEvent} from "@angular/material/tabs";
 
 const today = new Date();
-const month = today.getMonth();
-const year = today.getFullYear();
-
 
 @Component({
   selector: 'app-reg-page',
@@ -30,8 +27,8 @@ export class RegPageComponent implements OnInit{
 
   searchInitValue:string = "";
   dateRange = new FormGroup({
-    start: new FormControl(new Date(1, month,year)),
-    end: new FormControl(new Date(16, month, year)),
+    start: new FormControl(new Date(2024, 8,1)),
+    end: new FormControl(new Date(today.getFullYear(), today.getMonth(), today.getDay()+15)),
   });
 
   length:number = 0;

@@ -31,6 +31,7 @@ export class ActiveUsersComponent implements OnInit{
 
   ngOnInit(): void {
     this.getUserByType(this.consume);
+
   }
 
   getUserByType(consume:ConsumeJsonPage): void {

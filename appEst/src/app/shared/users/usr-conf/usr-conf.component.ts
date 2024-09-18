@@ -18,6 +18,7 @@ export class UsrConfComponent implements OnInit{
   @Input() tokenusr: string = "";
   @Input() cancelComponent: string = '/home';
   @Input() validFlag: number = 0;
+  @Input() isCreating:number = 0;
   form: FormGroup;
   matcher = new MyErrorStateMatcher();
   showPassword: boolean = false;
@@ -74,6 +75,7 @@ export class UsrConfComponent implements OnInit{
   ngOnInit(): void {
     this.validDataForm();
     this.setupValidators();
+    console.log(this.cveusr)
   }
 
   togglePasswordVisibility(): void {
@@ -82,7 +84,7 @@ export class UsrConfComponent implements OnInit{
 
   validDataForm(): void {
     const storedUsr = localStorage.getItem('user');
-    if (storedUsr && this.cveusr === 0) {
+    if (storedUsr && this.cveusr === 0 && this.isCreating === 0) {
       const usr = JSON.parse(storedUsr);
       this.populateForm(usr);
     }
@@ -131,7 +133,7 @@ export class UsrConfComponent implements OnInit{
   }
 
   populateForm(usr:any){
-    console.log(usr)
+    this.cveusr = usr.cveusr
     this.form.get('email')?.setValue(usr.emailusr)
     this.form.get('username')?.setValue(usr.loginusr)
     this.form.get('name')?.setValue(usr.nameusr)
