@@ -30,8 +30,8 @@ export class RegPageComponent implements OnInit{
 
   searchInitValue:string = "";
   dateRange = new FormGroup({
-    start: new FormControl(new Date(year, month, 13)),
-    end: new FormControl(new Date(year, month, 16)),
+    start: new FormControl(new Date(1, month,year)),
+    end: new FormControl(new Date(16, month, year)),
   });
 
   length:number = 0;
@@ -44,11 +44,18 @@ export class RegPageComponent implements OnInit{
   }
 
   ngOnInit(): void {
+    // Actualiza el valor de actFlag en consume
+    this.consume.datos.actFlag = this.actFlag;
+
+    // Ahora el valor correcto de actFlag se pasa al servicio
     this.getEstByParam(this.consume);
+
     this.dateRange.valueChanges.subscribe(() => this.onDateRangeChange());
   }
 
+
   getEstByParam(consume: ConsumeJsonPage): void {
+    console.log(this.consume.datos.actFlag)
     this.estService.searchEstByParam(consume).subscribe({
       next: (response: ResponseJsonPage) => {
         if (response.datos && response.datos.obj && response.datos.code === 200) {
@@ -89,18 +96,20 @@ export class RegPageComponent implements OnInit{
     }
   }
 
-  onDateRangeChange():void{
-    if(this.dateRange.valid){
+  onDateRangeChange(): void {
+    if (this.dateRange.valid) {
       const startDate = this.dateRange.get('start')?.value;
       const endDate = this.dateRange.get('end')?.value;
 
+      // Usa formatDate para convertir las fechas a 'dd/mm/yyyy'
       this.consume.datos.startDate = startDate ? this.util.formatDate(startDate) : '';
       this.consume.datos.endDate = endDate ? this.util.formatDate(endDate) : '';
       this.consume.datos.page = 0;
 
-      this.getEstByParam(this.consume)
+      this.getEstByParam(this.consume);
     }
   }
+
 
   onTabChange(event:MatTabChangeEvent):void{
     const tabLabel = event.tab.textLabel.toLowerCase();

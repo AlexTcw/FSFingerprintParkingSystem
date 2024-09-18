@@ -34,6 +34,18 @@ export class WebSocketService {
     );
   }
 
+  public disconnect() {
+    if (this.stompClient !== null) {
+      console.log('Disconnecting WebSocket connection');
+      this.stompClient.disconnect(() => {
+        console.log('WebSocket disconnected');
+      });
+    }
+  }
+
+
+
+
   private errorCallBack(error: any) {
     console.log('Error callback -> ' + error);
     setTimeout((callback: (message: any) => void) => {

@@ -1,25 +1,24 @@
-import {Component, ElementRef, OnInit, Renderer2, ViewChild} from '@angular/core';
-import Swal from "sweetalert2";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {MyErrorStateMatcher} from "../../../shared/validators/MyErrorStateMatcher";
-import {MatTableDataSource} from "@angular/material/table";
-import {ResponseJsonString} from "../../../models/response/ResponseJsonString";
-import {EstacionamientoService} from "../../../services/estacionamiento/estacionamiento.service";
-import {UsersService} from "../../../services/users/users.service";
+import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
+import {WebSocketService} from "../../../services/webSocket/web-socket.service";
 
 @Component({
   selector: 'app-dashboard-home',
   templateUrl: './dashboard-home.component.html',
   styleUrls: ['./dashboard-home.component.scss']
 })
-export class DashboardHomeComponent{
+export class DashboardHomeComponent implements OnInit{
 
-  constructor(private router:Router) {
+  constructor(private router:Router,
+              private ws:WebSocketService) {
   }
 
   handleNavigate(component:string){
     this.router.navigate([`dashboard/${component}`]).then(() => null);
+  }
+
+  ngOnInit(): void {
+    this.ws.disconnect();
   }
 
 }

@@ -1,4 +1,12 @@
 .main-container{
   width: 90%;
   height: 100%;
+
+  .table-container {
+    max-height: 100vh;
+    overflow-y: auto;       /* Activa el scroll vertical cuando sea necesario */
+    width: 100%;            /* Opcional: Asegura que el contenedor ocupe todo el ancho */
+  }
+
 }
+
