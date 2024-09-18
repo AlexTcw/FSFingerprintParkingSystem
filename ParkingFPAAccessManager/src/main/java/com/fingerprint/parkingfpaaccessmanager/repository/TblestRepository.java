@@ -38,13 +38,17 @@ public interface TblestRepository extends JpaRepository<Tblest, Long> {
     Long existsActiveEstWithToken(@Param("token") String token);
 
     @Query(value = """
+
             SELECT u.cveusr, u.emailusr, u.loginusr, u.nameusr, e.entrydate
             FROM tblest e
             INNER JOIN tblregistry r ON r.cveest = e.cveest
             INNER JOIN tblusr u ON u.cveusr = r.cveusr
             WHERE e.exitdate IS NULL
             AND (:startDate IS NULL OR :endDate IS NULL
-                OR e.entrydate BETWEEN STR_TO_DATE(:startDate, '%Y-%m-%d') AND STR_TO_DATE(:endDate, '%Y-%m-%d'))
+                            			OR e.entrydate BETWEEN\s
+                            			CONCAT(STR_TO_DATE(:startDate, '%d/%m/%Y'), ' 00:00:00')\s
+                           			 	AND\s
+                            			CONCAT(STR_TO_DATE(:endDate, '%d/%m/%Y'), ' 23:59:59'))
             AND (:key IS NULL
                 OR (UPPER(REPLACE(u.nameusr, '-', '')) LIKE CONCAT('%', UPPER(REPLACE(:key, '-', '')), '%')
                 OR REPLACE(u.cveusr, '-', '') LIKE CONCAT('%', REPLACE(:key, '-', ''), '%')
@@ -52,26 +56,7 @@ public interface TblestRepository extends JpaRepository<Tblest, Long> {
                 OR REPLACE(u.emailusr, '-', '') LIKE CONCAT('%', REPLACE(:key, '-', ''), '%')))
             AND (:type IS NULL
                 OR REPLACE(u.typeusr, '-', '') LIKE CONCAT('%', REPLACE(:type, '-', ''), '%'))
-            """,
-            countQuery = """
-                            SELECT COUNT(*)
-                            FROM (
-                                SELECT u.cveusr, u.emailusr, u.loginusr, u.nameusr, e.entrydate
-                                FROM tblest e
-                                INNER JOIN tblregistry r ON r.cveest = e.cveest
-                                INNER JOIN tblusr u ON u.cveusr = r.cveusr
-                                WHERE e.exitdate IS NULL
-                                AND (:startDate IS NULL OR :endDate IS NULL
-                                    OR e.entrydate BETWEEN STR_TO_DATE(:startDate, '%d/%m/%y') AND STR_TO_DATE(:endDate, '%d/%m/%y'))
-                                AND (:key IS NULL
-                                    OR (UPPER(REPLACE(u.nameusr, '-', '')) LIKE CONCAT('%', UPPER(REPLACE(:key, '-', '')), '%')
-                                    OR REPLACE(u.cveusr, '-', '') LIKE CONCAT('%', REPLACE(:key, '-', ''), '%')
-                                    OR REPLACE(u.loginusr, '-', '') LIKE CONCAT('%', REPLACE(:key, '-', ''), '%')
-                                    OR REPLACE(u.emailusr, '-', '') LIKE CONCAT('%', REPLACE(:key, '-', ''), '%')))
-                                AND (:type IS NULL
-                                    OR REPLACE(u.typeusr, '-', '') LIKE CONCAT('%', REPLACE(:type, '-', ''), '%'))
-                            ) AS filtered_users
-                    """, nativeQuery = true)
+            """, nativeQuery = true)
     Page<Object[]> findActiveEstByRangeTypeOrKey(@Param("startDate") String startDate,
                                            @Param("endDate") String endDate,
                                            @Param("key") String key,
@@ -85,7 +70,10 @@ public interface TblestRepository extends JpaRepository<Tblest, Long> {
             INNER JOIN tblusr u ON u.cveusr = r.cveusr
             WHERE e.exitdate IS NOT NULL
             AND (:startDate IS NULL OR :endDate IS NULL
-                OR e.entrydate BETWEEN STR_TO_DATE(:startDate, '%Y-%m-%d') AND STR_TO_DATE(:endDate, '%Y-%m-%d'))
+                			OR e.entrydate BETWEEN\s
+                			CONCAT(STR_TO_DATE(:startDate, '%d/%m/%Y'), ' 00:00:00')\s
+               			 	AND\s
+                			CONCAT(STR_TO_DATE(:endDate, '%d/%m/%Y'), ' 23:59:59'))
             AND (:key IS NULL
                 OR (UPPER(REPLACE(u.nameusr, '-', '')) LIKE CONCAT('%', UPPER(REPLACE(:key, '-', '')), '%')
                 OR REPLACE(u.cveusr, '-', '') LIKE CONCAT('%', REPLACE(:key, '-', ''), '%')
@@ -93,26 +81,7 @@ public interface TblestRepository extends JpaRepository<Tblest, Long> {
                 OR REPLACE(u.emailusr, '-', '') LIKE CONCAT('%', REPLACE(:key, '-', ''), '%')))
             AND (:type IS NULL
                 OR REPLACE(u.typeusr, '-', '') LIKE CONCAT('%', REPLACE(:type, '-', ''), '%'))
-            """,
-            countQuery = """
-                            SELECT COUNT(*)
-                            FROM (
-                                SELECT u.cveusr, u.emailusr, u.loginusr, u.nameusr, e.entrydate
-                                FROM tblest e
-                                INNER JOIN tblregistry r ON r.cveest = e.cveest
-                                INNER JOIN tblusr u ON u.cveusr = r.cveusr
-                                WHERE e.exitdate IS NULL
-                                AND (:startDate IS NULL OR :endDate IS NOT NULL
-                                    OR e.entrydate BETWEEN STR_TO_DATE(:startDate, '%d/%m/%y') AND STR_TO_DATE(:endDate, '%d/%m/%y'))
-                                AND (:key IS NULL
-                                    OR (UPPER(REPLACE(u.nameusr, '-', '')) LIKE CONCAT('%', UPPER(REPLACE(:key, '-', '')), '%')
-                                    OR REPLACE(u.cveusr, '-', '') LIKE CONCAT('%', REPLACE(:key, '-', ''), '%')
-                                    OR REPLACE(u.loginusr, '-', '') LIKE CONCAT('%', REPLACE(:key, '-', ''), '%')
-                                    OR REPLACE(u.emailusr, '-', '') LIKE CONCAT('%', REPLACE(:key, '-', ''), '%')))
-                                AND (:type IS NULL
-                                    OR REPLACE(u.typeusr, '-', '') LIKE CONCAT('%', REPLACE(:type, '-', ''), '%'))
-                            ) AS filtered_users
-                    """,nativeQuery = true)
+            """, nativeQuery = true)
     Page<Object[]> findUnActiveEstByRangeTypeOrKey(@Param("startDate") String startDate,
                                                    @Param("endDate") String endDate,
                                                    @Param("key") String key,
