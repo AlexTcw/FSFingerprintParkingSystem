@@ -45,3 +45,14 @@ services:
       - '4200:4200'
     depends_on:
       - admin-backend
+      
+  qr-generator:
+    image: alextcw/qr-generator:v1.0
+    restart: always
+    networks:
+      parkingnetwork:
+        ipv4_address: 192.18.0.40
+    ports:
+      - '8100:8100'
+    depends_on:
+      - admin-frontend
